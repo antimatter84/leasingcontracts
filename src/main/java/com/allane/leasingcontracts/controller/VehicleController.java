@@ -3,9 +3,7 @@ package com.allane.leasingcontracts.controller;
 import com.allane.leasingcontracts.model.Vehicle;
 import com.allane.leasingcontracts.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +25,25 @@ public class VehicleController
         return vehicleService.getVehicles();
     }
 
+    @PostMapping
+    public void addVehicle(@RequestBody Vehicle vehicle)
+    {
+        vehicleService.addVehicle(vehicle);
+    }
 
+    @DeleteMapping(path = "{vehicleId}")
+    public void deleteVehicle(@PathVariable("vehicleId") Long vehicleId)
+    {
+        vehicleService.deleteVehicle(vehicleId);
+    }
+
+    @PutMapping(path = "{vehicleId}")
+    public void updateVehicle(
+            @PathVariable("vehicleId") Long vehicleId,
+            @RequestParam(required = false) int year,
+            @RequestParam(required = false) float price
+    )
+    {
+        vehicleService.updateVehicle(vehicleId, year, price);
+    }
 }
