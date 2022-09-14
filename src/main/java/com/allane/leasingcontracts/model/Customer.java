@@ -55,4 +55,9 @@ public class Customer
         this.contracts.remove(contract);
         contract.setCustomer(null);
     }
+
+    public String getFullName()
+    {
+        return String.format("%s %s", firstName, lastName);
+    }
 }

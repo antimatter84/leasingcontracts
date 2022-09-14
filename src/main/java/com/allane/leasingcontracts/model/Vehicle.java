@@ -45,4 +45,9 @@ public class Vehicle
         this.vin = vin;
         this.price = price;
     }
+
+    public String getDescription()
+    {
+        return String.format("%s %s (%d)", brand, model, modelYear);
+    }
 }
