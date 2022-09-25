@@ -28,7 +28,7 @@ public class VehicleController
     @PostMapping
     public void addVehicle(@RequestBody Vehicle vehicle)
     {
-        vehicleService.addVehicle(vehicle);
+        vehicleService.saveVehicle(vehicle);
     }
 
     @DeleteMapping(path = "{vehicleId}")

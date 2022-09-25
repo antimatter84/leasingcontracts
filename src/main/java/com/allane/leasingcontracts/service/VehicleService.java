@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VehicleService
@@ -25,14 +24,13 @@ public class VehicleService
         return vehicleRepository.findAll();
     }
 
-    public void addVehicle(Vehicle vehicle)
+    public Vehicle saveVehicle(Vehicle vehicle)
     {
-        Optional<Vehicle> vehicleOptional = vehicleRepository.findVehicleByVin(vehicle.getVin());
-        if (vehicleOptional.isPresent())
+        if (vehicle.getVin() != null && vehicleRepository.findVehicleByVin(vehicle.getVin()).isPresent())
         {
-            throw new IllegalStateException("VIN already registered.");
+            throw new IllegalArgumentException("VIN already registered.");
         }
-        vehicleRepository.save(vehicle);
+        return vehicleRepository.save(vehicle);
     }
 
     public void deleteVehicle(Long vehicleId)
