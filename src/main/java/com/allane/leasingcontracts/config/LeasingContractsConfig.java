@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class LeasingContractsConfig
 {
     @Bean
-    public ModelMapper createModelMapper()
+    public ModelMapper modelMapper()
     {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);

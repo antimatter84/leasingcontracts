@@ -1,6 +1,6 @@
 package com.allane.leasingcontracts.controller;
 
-import com.allane.leasingcontracts.model.Vehicle;
+import com.allane.leasingcontracts.dto.VehicleDTO;
 import com.allane.leasingcontracts.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +20,15 @@ public class VehicleController
     }
 
     @GetMapping
-    public List<Vehicle> getVehicles()
+    public List<VehicleDTO> getVehicles()
     {
         return vehicleService.getVehicles();
     }
 
     @PostMapping
-    public void addVehicle(@RequestBody Vehicle vehicle)
+    public void addVehicle(@RequestBody VehicleDTO vehicleDto)
     {
-        vehicleService.saveVehicle(vehicle);
+        vehicleService.saveVehicle(vehicleDto);
     }
 
     @DeleteMapping(path = "{vehicleId}")
@@ -39,11 +39,10 @@ public class VehicleController
 
     @PutMapping(path = "{vehicleId}")
     public void updateVehicle(
-            @PathVariable("vehicleId") Long vehicleId,
-            @RequestParam(required = false) int year,
-            @RequestParam(required = false) float price
+        @PathVariable("vehicleId") Long vehicleId,
+        @RequestBody VehicleDTO vehicleDto
     )
     {
-        vehicleService.updateVehicle(vehicleId, year, price);
+        vehicleService.updateVehicle(vehicleId, vehicleDto);
     }
 }

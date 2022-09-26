@@ -1,16 +1,15 @@
 package com.allane.leasingcontracts.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@Builder
 @Entity
 @Table(name = "vehicle")
 public class Vehicle
@@ -32,9 +31,10 @@ public class Vehicle
     private float price;
 
     @OneToOne(
-            fetch = FetchType.LAZY,
-            mappedBy = "vehicle"
+        fetch = FetchType.LAZY,
+        mappedBy = "vehicle"
     )
+    @ToString.Exclude
     private LeasingContract contract;
 
     public Vehicle(String brand, String model, int modelYear, String vin, float price)
