@@ -47,7 +47,7 @@ class CustomerControllerTest
     @Test
     void shouldReturnTwoCustomersFromService() throws Exception
     {
-        this.mockMvc.perform(get("/api/v1/customers"))
+        this.mockMvc.perform(get(UrlConstants.CUSTOMERS_URL_V1))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(2)));
     }
@@ -55,7 +55,7 @@ class CustomerControllerTest
     @Test
     void shouldReturnTheInformationOfCustomers() throws Exception
     {
-        this.mockMvc.perform(get("/api/v1/customers"))
+        this.mockMvc.perform(get(UrlConstants.CUSTOMERS_URL_V1))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].firstName").value(arnold.getFirstName()))
             .andExpect(jsonPath("$[0].lastName").value(arnold.getLastName()))
