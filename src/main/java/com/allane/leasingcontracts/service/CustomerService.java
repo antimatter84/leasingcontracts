@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,34 +28,47 @@ public class CustomerService
     public List<CustomerDTO> getCustomers()
     {
         return customerRepository.findAll()
-                .stream()
-                .map(c -> mapper.map(c, CustomerDTO.class))
-                .collect(Collectors.toList());
+            .stream()
+            .map(c -> mapper.map(c, CustomerDTO.class))
+            .collect(Collectors.toList());
     }
 
-    public void addCustomer(CustomerDTO customerDto)
+    public CustomerDTO getCustomer(Long customerId)
+    {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (customer.isEmpty())
+        {
+            throw new IllegalArgumentException("No customer found with ID: " + customerId);
+        }
+
+        return mapper.map(customer, CustomerDTO.class);
+    }
+
+    public CustomerDTO addCustomer(CustomerDTO customerDto)
     {
         Customer customer = mapper.map(customerDto, Customer.class);
         boolean exists = customerRepository.existsByFirstNameAndLastNameAndDateOfBirth(
-                customer.getFirstName(), customer.getLastName(), customer.getDateOfBirth());
+            customer.getFirstName(), customer.getLastName(), customer.getDateOfBirth());
 
         if (exists)
         {
             throw new IllegalStateException("Customer already exists.");
         }
 
-        customerRepository.save(customer);
+        Customer savedCustomer = customerRepository.save(customer);
+        return mapper.map(savedCustomer, CustomerDTO.class);
     }
 
-    public void deleteCustomer(Long customerId)
+    public CustomerDTO deleteCustomer(Long customerId)
     {
-        boolean exists = customerRepository.existsById(customerId);
-        if (!exists)
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (customer.isEmpty())
         {
-            throw new IllegalStateException("Customer with ID " + customerId + " does not exist");
+            throw new IllegalArgumentException("Customer with ID " + customerId + " does not exist");
         }
 
         customerRepository.deleteById(customerId);
+        return mapper.map(customer, CustomerDTO.class);
     }
 
     @Transactional
