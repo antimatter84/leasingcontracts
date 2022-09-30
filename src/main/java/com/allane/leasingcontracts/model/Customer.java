@@ -1,8 +1,6 @@
 package com.allane.leasingcontracts.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "customer")
 public class Customer
@@ -31,10 +31,11 @@ public class Customer
     private LocalDate dateOfBirth;
 
     @OneToMany(
-            mappedBy = "customer",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+        mappedBy = "customer",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
     )
+    @ToString.Exclude
     private List<LeasingContract> contracts = new ArrayList<>();
 
     public Customer(String firstName, String lastName, LocalDate dateOfBirth)

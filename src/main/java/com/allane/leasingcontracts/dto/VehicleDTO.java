@@ -2,23 +2,26 @@ package com.allane.leasingcontracts.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class VehicleDTO
 {
     private Long id;
-    @NonNull
     private String brand;
-    @NonNull
     private String model;
-    @NonNull
     private int modelYear;
-    @NonNull
     private String vin;
-    @NonNull
-    private float price;
+    private BigDecimal price;
+
+    public VehicleDTO(String brand, String model, int modelYear, String vin, BigDecimal price)
+    {
+        this.brand = brand;
+        this.model = model;
+        this.modelYear = modelYear;
+        this.vin = vin;
+        this.price = price;
+    }
 }

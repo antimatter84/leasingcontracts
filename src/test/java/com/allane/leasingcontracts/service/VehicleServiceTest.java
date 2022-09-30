@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +41,8 @@ class VehicleServiceTest
     void shouldReturnTwoVehicles()
     {
         List<Vehicle> expectedVehicles = List.of(
-            new Vehicle("Audi", "A4", 2012, "987", 41000),
-            new Vehicle("Mercedes", "A180", 2015, "123", 32000)
+            new Vehicle("Audi", "A4", 2012, "987", BigDecimal.valueOf(41000)),
+            new Vehicle("Mercedes", "A180", 2015, "123", BigDecimal.valueOf(32000))
         );
         when(repository.findAll()).thenReturn(expectedVehicles);
 
@@ -56,7 +57,7 @@ class VehicleServiceTest
     @Test
     void shouldSaveAVehicle()
     {
-        final Vehicle vehicleToSave = new Vehicle("Mercedes", "A180", 2015, "", 32000);
+        final Vehicle vehicleToSave = new Vehicle("Mercedes", "A180", 2015, "", BigDecimal.valueOf(32000));
         when(repository.save(any(Vehicle.class))).thenReturn(vehicleToSave);
 
         final Vehicle actual = service.saveVehicle(new VehicleDTO());
@@ -68,7 +69,7 @@ class VehicleServiceTest
     @Test
     void shouldNotSaveVehicle_whenVehicleWithSameVINExists()
     {
-        final Vehicle vehicleToSave = new Vehicle("Mercedes", "A180", 2015, "123", 32000);
+        final Vehicle vehicleToSave = new Vehicle("Mercedes", "A180", 2015, "123", BigDecimal.valueOf(32000));
         final VehicleDTO dto = mapper.map(vehicleToSave, VehicleDTO.class);
         when(repository.findVehicleByVin(any(String.class))).thenReturn(Optional.of(vehicleToSave));
 
@@ -85,10 +86,10 @@ class VehicleServiceTest
     @Test
     void shouldUpdateVehicle()
     {
-        Vehicle vehicleToUpdate = new Vehicle("Mercedes", "A180", 2015, "123", 32000);
+        Vehicle vehicleToUpdate = new Vehicle("Mercedes", "A180", 2015, "123", BigDecimal.valueOf(32000));
         when(repository.findById(any(Long.class))).thenReturn(Optional.of(vehicleToUpdate));
 
-        VehicleDTO dto = new VehicleDTO("Mercedes", "A220", 2015, "123", 32000);
+        VehicleDTO dto = new VehicleDTO("Mercedes", "A220", 2015, "123", BigDecimal.valueOf(32000));
         VehicleDTO updatedDto = service.updateVehicle(1L, dto);
 
         assertThat(updatedDto.getModel()).isEqualTo(dto.getModel());
@@ -98,11 +99,11 @@ class VehicleServiceTest
     @Test
     void shouldFailWhenUpdatingWithAlreadyExistingVIN()
     {
-        Vehicle vehicleToUpdate = new Vehicle("Mercedes", "A180", 2015, "", 32000);
+        Vehicle vehicleToUpdate = new Vehicle("Mercedes", "A180", 2015, "", BigDecimal.valueOf(32000));
         when(repository.findById(any(Long.class))).thenReturn(Optional.of(vehicleToUpdate));
         when(repository.existsByIdIsNotAndVinEquals(any(Long.class), any(String.class))).thenReturn(true);
 
-        VehicleDTO dto = new VehicleDTO("Mercedes", "A180", 2015, "42", 32000);
+        VehicleDTO dto = new VehicleDTO("Mercedes", "A180", 2015, "42", BigDecimal.valueOf(32000));
         assertThatIllegalArgumentException()
             .isThrownBy(() -> service.updateVehicle(1L, dto))
             .withMessageContaining("VIN")

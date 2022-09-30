@@ -3,6 +3,7 @@ package com.allane.leasingcontracts.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -28,16 +29,15 @@ public class Vehicle
 
     private String vin;
 
-    private float price;
+    private BigDecimal price;
 
     @OneToOne(
-        fetch = FetchType.LAZY,
         mappedBy = "vehicle"
     )
     @ToString.Exclude
     private LeasingContract contract;
 
-    public Vehicle(String brand, String model, int modelYear, String vin, float price)
+    public Vehicle(String brand, String model, int modelYear, String vin, BigDecimal price)
     {
         this.brand = brand;
         this.model = model;

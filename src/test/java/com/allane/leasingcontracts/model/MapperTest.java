@@ -1,13 +1,15 @@
 package com.allane.leasingcontracts.model;
 
 import com.allane.leasingcontracts.config.LeasingContractsConfig;
-import com.allane.leasingcontracts.dto.ContractOverviewDTO;
 import com.allane.leasingcontracts.dto.CustomerDTO;
+import com.allane.leasingcontracts.dto.LeasingContractDTO;
+import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,19 +48,19 @@ class MapperTest
         LeasingContract contract = new LeasingContract();
         contract.setId(999L);
         contract.setContractNumber("1234");
-        contract.setLeasingRate(99.90f);
+        contract.setLeasingRate(BigDecimal.valueOf(99.9));
         contract.setVehicle(new Vehicle(
-                "Ford", "Focus", 2018, "VIN123", 9000f));
+            "Ford", "Focus", 2018, "VIN123", BigDecimal.valueOf(9000.0)));
         contract.setCustomer(new Customer(
-                "John", "Wick", LocalDate.of(1972, 4, 1)));
+            "John", "Wick", LocalDate.of(1972, 4, 1)));
 
-        ContractOverviewDTO overviewDTO = mapper.map(contract, ContractOverviewDTO.class);
+        LeasingContractDTO overviewDTO = mapper.map(contract, LeasingContractDTO.class);
 
         assertThat(overviewDTO.getId()).isEqualTo(contract.getId());
         assertThat(overviewDTO.getContractNumber()).isEqualTo(contract.getContractNumber());
-        assertThat(overviewDTO.getRate()).isEqualTo(contract.getLeasingRate());
+        assertThat(overviewDTO.getRate()).isCloseTo(contract.getLeasingRate(), Percentage.withPercentage(1));
         assertThat(overviewDTO.getVin()).isEqualTo(contract.getVehicle().getVin());
-        assertThat(overviewDTO.getPrice()).isEqualTo(contract.getVehicle().getPrice());
+        assertThat(overviewDTO.getPrice()).isCloseTo(contract.getVehicle().getPrice(), Percentage.withPercentage(1));
 
         assertThat(overviewDTO.getFullName()).isEqualTo(
                 contract.getCustomer().getFirstName() + " " + contract.getCustomer().getLastName());

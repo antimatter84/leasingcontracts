@@ -1,16 +1,15 @@
 package com.allane.leasingcontracts.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "contract")
 public class LeasingContract
@@ -25,11 +24,9 @@ public class LeasingContract
     private String contractNumber;
 
     @Column(name = "leasing_rate")
-    private float leasingRate;
+    private BigDecimal leasingRate;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY
-    )
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

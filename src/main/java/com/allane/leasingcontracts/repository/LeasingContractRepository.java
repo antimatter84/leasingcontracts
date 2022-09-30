@@ -1,7 +1,6 @@
 package com.allane.leasingcontracts.repository;
 
 import com.allane.leasingcontracts.model.LeasingContract;
-import com.allane.leasingcontracts.model.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +12,7 @@ public interface LeasingContractRepository
 {
     Optional<LeasingContract> findByContractNumber(String contractNumber);
 
-    boolean existsLeasingContractByVehicle(Vehicle vehicle);
+    boolean existsLeasingContractByVehicleId(Long vehicleId);
 
     boolean existsLeasingContractByContractNumber(String contractNumber);
 }

@@ -68,7 +68,7 @@ public class CustomerService
         }
 
         customerRepository.deleteById(customerId);
-        return mapper.map(customer, CustomerDTO.class);
+        return mapper.map(customer.get(), CustomerDTO.class);
     }
 
     @Transactional
