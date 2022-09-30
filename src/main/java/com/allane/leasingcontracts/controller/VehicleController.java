@@ -3,12 +3,14 @@ package com.allane.leasingcontracts.controller;
 import com.allane.leasingcontracts.dto.VehicleDTO;
 import com.allane.leasingcontracts.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/vehicles")
+@RequestMapping(path = UrlConstants.VEHICLES_V1_URL)
 public class VehicleController
 {
     private final VehicleService vehicleService;
@@ -20,9 +22,15 @@ public class VehicleController
     }
 
     @GetMapping
-    public List<VehicleDTO> getVehicles()
+    public ResponseEntity<List<VehicleDTO>> getVehicles()
     {
-        return vehicleService.getVehicles();
+        return new ResponseEntity<>(vehicleService.getVehicles(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/brands")
+    public ResponseEntity<List<String>> getVehicleBrands()
+    {
+        return new ResponseEntity<>(vehicleService.getVehicleBrands(), HttpStatus.OK);
     }
 
     @PostMapping

@@ -72,4 +72,9 @@ public class VehicleService
 
         return mapper.map(vehicle, VehicleDTO.class);
     }
+
+    public List<String> getVehicleBrands()
+    {
+        return vehicleRepository.findDistinctBrands();
+    }
 }
