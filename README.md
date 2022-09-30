@@ -23,6 +23,8 @@ sudo apt update
 sudo apt install gradle
 ```
 
+Source: https://launchpad.net/~cwchien/+archive/ubuntu/gradle
+
 ### Install Docker Engine
 
 Please go to https://docs.docker.com/engine/install/ubuntu and follow steps 1 to 3 under "Install using the repository"
