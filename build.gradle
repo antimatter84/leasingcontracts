@@ -41,3 +41,8 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+test {
+	filter {
+		excludeTestsMatching "org.allane.leasingcontracts.it.*"
+	}
+}
